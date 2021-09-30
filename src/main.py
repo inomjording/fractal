@@ -29,11 +29,12 @@ class Fractal:
         # ax.set_xlim(-4, 4)
         # ax.set_ylim(0, 100)
         ax.scatter(self.x[:self.n], self.y[:self.n], marker=".")
+        plt.savefig("../figures/tree.png")
         plt.show()
 
 
 def main():
-    test = Fractal("square.txt")
+    test = Fractal("../data/tree")
     print(test.data)
     print(test.data.shape)
     test.ran_it()
