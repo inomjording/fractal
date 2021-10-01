@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 class Fractal:
-    def __init__(self, file_name, numits=1000):
+    def __init__(self, file_name, numits=10000):
         self.data = np.loadtxt(file_name)
         self.x = np.empty(numits)
         self.y = np.empty(numits)
@@ -29,12 +29,12 @@ class Fractal:
         # ax.set_xlim(-4, 4)
         # ax.set_ylim(0, 100)
         ax.scatter(self.x[:self.n], self.y[:self.n], marker=".")
-        plt.savefig("../figures/tree.png")
+        plt.savefig("../figures/koch.png")
         plt.show()
 
 
 def main():
-    test = Fractal("../data/tree")
+    test = Fractal("../data/koch snowflake")
     print(test.data)
     print(test.data.shape)
     test.ran_it()
