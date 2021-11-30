@@ -1,9 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 
 class Fractal:
     def __init__(self, file_name, numits=10000):
+        self.name = os.path.basename(file_name)
         self.data = np.loadtxt(file_name)
         self.x = np.empty(numits)
         self.y = np.empty(numits)
@@ -26,15 +28,15 @@ class Fractal:
 
     def plotting(self):
         fig, ax = plt.subplots()
-        # ax.set_xlim(-4, 4)
-        # ax.set_ylim(0, 100)
-        ax.scatter(self.x[:self.n], self.y[:self.n], marker=".")
-        plt.savefig("../figures/koch.png")
+        ax.set_title(self.name.capitalize())
+        ax.set_aspect('equal', 'box')
+        plt.scatter(self.x[:self.n], self.y[:self.n], marker=".", c='k')
+        plt.savefig("../figures/{0}.png".format(self.name))
         plt.show()
 
 
 def main():
-    test = Fractal("../data/koch snowflake")
+    test = Fractal("../data/tree")
     print(test.data)
     print(test.data.shape)
     test.ran_it()
