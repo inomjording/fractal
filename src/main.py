@@ -32,7 +32,7 @@ class Fractal:
         ax.set_title(self.name.capitalize())
         ax.set_aspect('equal', 'box')
         plt.scatter(self.x[:self.n], self.y[:self.n], marker=".", c='k')
-        plt.savefig("../figures/{0}.png".format(self.name))
+        plt.savefig("../figures/{0}.png".format(self.name), bbox_inches="tight")
         plt.show()
 
     def scale(self, k):
@@ -80,17 +80,39 @@ class Fractal:
                 y_pos += step
             x_pos += step
             y_pos = y_min
-        return boxes, box_total
+        return boxes, step
+
+    def box_count_dim(self, res):
+        boxes, step = self.box_count(res)
+        return np.log(1/step)/np.log(boxes)
+
+    def box_counter(self):
+        boxes = []
+        magnification = []
+        i = 10
+        while i <= 100:
+            box, step = self.box_count(i)
+            boxes.append(np.log(box))
+            magnification.append(np.log(1/step))
+            i += 10
+        return np.array(boxes), np.array(magnification)
+
+    def box_count_plot(self):
+        boxes, magnification = self.box_counter()
+        print(boxes, '\n', magnification)
+        magnification = magnification[:, np.newaxis]
+        p, _, _, _ = np.linalg.lstsq(magnification, boxes)
+        plt.plot(magnification, boxes, 'o')
+        plt.plot(magnification, magnification*p)
+        plt.show()
+        print(p)
 
 
 def main():
-    test = Fractal("../data/tree")
-    print(test.data)
-    print(test.data.shape)
-    print(test.scale(2))
+    test = Fractal("../data/dragon segment")
     test.ran_it()
-    print(test.box_count(10))
     test.plotting()
+    # test.box_count_plot()
 
 
 if __name__ == "__main__":
